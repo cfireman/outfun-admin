@@ -94,6 +94,30 @@ class Map extends Admin_Controller
 		exit;
 	}
 	
+	/**
+	 * 使用AJAX异步加载地图中的marker
+	 */
+	public function _load_marker_ajax_post()
+	{
+		$center['lng'] = $_POST['lng'];
+		$center['lat'] = $_POST['lat'];
+		
+		$min['lng'] = $center['lng'] - 0.4;
+		$min['lat'] = $center['lat'] - 0.2;
+		$max['lng'] = $center['lng'] + 0.4;
+		$max['lat'] = $center['lat'] + 0.2;
+		$result = $this->map_mdl->GetPacket($min,$max);
+		if($result != false)
+		{
+			echo json_encode($result);
+			exit;
+		}
+		else
+		{
+			echo false;
+			exit;
+		}
+	}
 }
 
 /* End of file user.php */

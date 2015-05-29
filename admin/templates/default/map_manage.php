@@ -31,6 +31,8 @@
 </body>
 </html>
 <script type="text/javascript">
+
+var host = '<?php echo backend_url(); ?>';
 	// 百度地图API功能
 	var map = new BMap.Map("allmap");
 	map.enableScrollWheelZoom(true);      //开启鼠标滚轮缩放
@@ -38,7 +40,8 @@
 
 	var point = new BMap.Point(116.331398,39.897445);
 	map.centerAndZoom(point,12);            //初始化定位
-
+	load_marker_ajax();
+	
 /*---------------------------------根据城市定位---------------------------------------*/
  
 	function theLocation(){
@@ -119,14 +122,19 @@
 		marker.setLabel(label);
 	}
 
+	//删除遮盖物
 	function deletePoint(){
 		map.clearOverlays();           //删除所有遮盖物
 		/*
 		var allOverlay = map.getOverlays();
+		console.log(allOverlay);
 		for (var i = 0; i < allOverlay.length -1; i++){
-			if(allOverlay[i].getLabel().content == "投放位置"){
-				map.removeOverlay(allOverlay[i]);
-				return false;
+			if(allOverlay[i].getLabel())
+			{
+				if(allOverlay[i].getLabel().content == "投放位置"){
+					map.removeOverlay(allOverlay[i]);
+					return false;
+				}
 			}
 		}*/
 	}
@@ -140,5 +148,25 @@
 			alert("请先选择一个点！");return false;
 		}
 	}
-	
+
+	//加载当前中心点附近的红包
+	function load_marker_ajax(){
+		var center = map.getBounds().getCenter();
+		
+		$.ajax({
+            type: "POST",
+            url: host+'map/load_marker_ajax',
+            data: "lng="+center.lng+"&lat="+center.lat,
+            success: function(data){
+                var newData = eval('('+data+')');
+                for (i in newData)
+                {
+                 　　 			point = new BMap.Point(newData[i]['longitude'],newData[i]['latitude']);
+                 　　 			label = new BMap.Label(newData[i]['name'],{offset:new BMap.Size(20,-10)});
+                 　　 			addMarker(point,label);
+                }
+            }
+        });
+	}
+
 </script>

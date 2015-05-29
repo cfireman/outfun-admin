@@ -43,4 +43,23 @@ class Map_mdl extends CI_Model
 		return $this->db->insert($this->table_packet, $data); 
 	}
 	
+	/**
+	 * 得到范围坐标内的全部红包信息
+	 * @param string $min
+	 * @param string $max
+	 */
+	public function GetPacket($min = null,$max = null)
+	{
+		$where = '';
+		if(isset($min) && isset($max))
+		{
+			$where .= " where longitude >= {$min['lng']} and longitude <= {$max['lng']} 
+						and latitude  >= {$min['lat']} and latitude  <= {$max['lat']}";
+		}
+		
+		$sql = "select p1.*,p2.name,p2.status as type_status from $this->table_packet as p1 
+					left join $this->table_packettype as p2 on p1.type_id = p2.id $where";
+		$res = $this->db->query($sql)->result();
+		return $res;
+	}
 }
