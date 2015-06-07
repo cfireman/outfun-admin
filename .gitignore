@@ -1,2 +1,4 @@
 .settings
 .ssh
+.buildpath
+.project

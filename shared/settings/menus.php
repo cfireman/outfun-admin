@@ -197,4 +197,31 @@ $setting['menus']=array (
       ),
     ),
   ),
+  4 => 
+  array (
+    'menu_id' => '40',
+    'class_name' => 'member',
+    'method_name' => 'view',
+    'menu_name' => '会员',
+    'sub_menus' => 
+    array (
+      0 => 
+      array (
+        'menu_id' => '41',
+        'class_name' => 'member',
+        'method_name' => 'view',
+        'menu_name' => '会员管理',
+        'sub_menus' => 
+        array (
+          0 => 
+          array (
+            'menu_id' => '42',
+            'class_name' => 'member',
+            'method_name' => 'view',
+            'menu_name' => '会员列表',
+          ),
+        ),
+      ),
+    ),
+  ),
 );
