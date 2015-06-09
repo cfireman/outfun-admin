@@ -22,6 +22,7 @@ class Member extends Admin_Controller
 		$this->_check_permit();
 		$this->load->model('map_mdl');
 		$this->load->helper('form');
+		$this->load->helper('curl');
         $this->acl->filter_left_menus('member',4);
 	}
 	
@@ -36,6 +37,10 @@ class Member extends Admin_Controller
      */
 	public function view()
 	{
+		$url = '/member/get?sign=debugSign';
+		$data = array();
+		$result = postData($url, $data);
+		var_dump($result);die;
 		$this->_template('member_list');
 	}
 	
